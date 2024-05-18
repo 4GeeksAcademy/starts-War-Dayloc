@@ -1,0 +1,12 @@
+.anchor {
+  color: aliceblue;
+}
+#list {
+  color: aliceblue;
+  border: solid 2px;
+  border-color: cadetblue;
+}
+#num {
+  border: solid 1px;
+  border-color: cadetblue;
+}
