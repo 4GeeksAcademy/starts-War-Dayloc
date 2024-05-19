@@ -2,31 +2,33 @@ import React, { useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import "../../styles/personaje.css";
+import "../../styles/vehicle.css";
 
-export const Personajes = () => {
+const Vehicle = () => {
   const { id } = useParams();
   const { actions, store } = useContext(Context);
-  const person = store.people
-    ? store.people.find((people) => people.uid === id)
+  const vehicle = store.vehicle
+    ? store.vehicle.find((vehicle) => vehicle.uid === id)
     : null;
-  if (!person) {
+  if (!vehicle) {
     return <div>Loading...</div>;
   }
   return (
     <div className="container text-center">
-      <h1 className="name">{person.properties.name}</h1>
+      <h1>{vehicle.properties.name}</h1>
 
       <p>
-        <h1>Gender:</h1> {person.properties.gender}
+        <h2>Length:</h2> {vehicle.properties.length}
       </p>
       <p>
-        <h1>Height:</h1> {person.properties.height}
+        <h2>Manufacturer:</h2> {vehicle.properties.manufacturer}
       </p>
       <p>
-        <h1>Mass:</h1> {person.properties.mass}
+        <h2>Model:</h2> {vehicle.properties.model}
       </p>
       <Link to="/">Back to Home</Link>
     </div>
   );
 };
+
+export default Vehicle;
