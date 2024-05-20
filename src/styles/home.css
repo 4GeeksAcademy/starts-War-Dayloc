@@ -19,3 +19,20 @@
 .vehiculos {
   color: aquamarine;
 }
+.card {
+  color: antiquewhite;
+}
+.carousel {
+  display: flex;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+}
+
+.carousel-item {
+  scroll-snap-align: start;
+  block-size: 100px;
+}
+.like{
+  width: 40px;
+  height: 40px;
+}

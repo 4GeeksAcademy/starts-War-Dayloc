@@ -15,18 +15,30 @@ export const Personajes = () => {
   }
   return (
     <div className="container text-center">
-      <h1 className="name">{person.properties.name}</h1>
-
-      <p>
-        <h1>Gender:</h1> {person.properties.gender}
-      </p>
-      <p>
-        <h1>Height:</h1> {person.properties.height}
-      </p>
-      <p>
-        <h1>Mass:</h1> {person.properties.mass}
-      </p>
-      <Link to="/">Back to Home</Link>
+      <div class="card mb-3 " id="card2">
+        <div className="row g-0">
+          <div className="col-md-4">
+            <img
+              src="https://th.bing.com/th/id/OIP.4-AhaTKMU-zORIDR-E3pVQHaEE?w=1334&h=734&rs=1&pid=ImgDetMain"
+              className="per"
+              alt="..."
+            />
+          </div>
+          <div className="col-md-8">
+            <div className="card-body">
+              <h5 className="card-title">{person.properties.name}</h5>
+              <p className="card-text">Gender: {person.properties.gender}</p>
+              <p className="card-text">Mass:{person.properties.mass}</p>
+              <p className="card-text">
+                <small class="text-body-secondary">
+                  height: {person.properties.height}
+                </small>
+              </p>
+              <Link to="/">Back to Home</Link>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
