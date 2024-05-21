@@ -22,17 +22,29 @@
 .card {
   color: antiquewhite;
 }
-.carousel {
-  display: flex;
-  overflow-x: scroll;
-  scroll-behavior: smooth;
+.carousel-container {
+  overflow-y: auto;
+  white-space: nowrap;
+  padding: 1rem 0;
 }
 
-.carousel-item {
-  scroll-snap-align: start;
-  block-size: 100px;
+.carousel {
+  display: flex;
+  flex-wrap: nowrap;
 }
-.like{
-  width: 40px;
-  height: 40px;
+
+.card-body {
+  overflow: hidden;
+}
+
+.card-title,
+.card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.like {
+  max-width: 25px;
+  height: 25px;
 }
