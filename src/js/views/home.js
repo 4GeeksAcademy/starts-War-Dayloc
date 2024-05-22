@@ -12,25 +12,59 @@ export const Home = () => {
   if (!store.planet) return null;
   const addToFavorites = (item) => {
     setFavorites((prevFavorites) => {
-      const isAlreadyFavorite = prevFavorites.find((fav) => fav.id === item.id);
+      const isAlreadyFavorite = prevFavorites.some((fav) => fav.id === item.id);
       if (isAlreadyFavorite) {
         return prevFavorites;
       }
       return [...prevFavorites, item];
     });
+
+    const removeFromFavorites = (item) => {
+      setFavorites((prevFavorites) => {
+        return prevFavorites.filter((fav) => fav.id !== item.id);
+      });
+    };
   };
-  console.log(favorites);
+
   return (
     <div className="container text-center">
-      
       <div className="container">
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Favoritos
+          </button>
+          <ul className="dropdown-menu ">
+            {favorites.map((item, index) => (
+              <div className="row">
+                <div className="col-8">
+                  <li className="fav" key={index}>
+                    {item.properties.name}
+                  </li>
+                </div>
+                <div className="col-4">
+                  <span
+                    className="btn btn-danger"
+                    onClick={() => removeFromFavorites(item)}
+                  >
+                    X
+                  </span>
+                </div>
+              </div>
+            ))}
+          </ul>
+        </div>
         <h1 className="personajes mt-4">Personajes</h1>
         <div className="carousel-container">
           <div className="carousel">
             {store.people.map((people) => (
               <div
-                className="card bg-dark"
-                style={{ width: "24rem", marginRight: "1rem" }}
+                className="card bg-dark "
+                style={{ width: "15rem", marginRight: "1rem" }}
                 key={people.id}
               >
                 <img
@@ -45,7 +79,7 @@ export const Home = () => {
                   <img
                     onClick={() => addToFavorites(people)}
                     src="https://i.pinimg.com/736x/f9/6a/17/f96a17cb970c98e22f4073f5c2e59f99.jpg"
-                    className="like img-fluid"
+                    className="like img-fluid me-2"
                     alt="like"
                   />
                   <Link to={`/people/${people.uid}`}>Detalle</Link>
@@ -55,15 +89,13 @@ export const Home = () => {
           </div>
         </div>
 
-        <div className="container mt-5"></div>
-
         <h1 className="planetas mt-4">Planetas</h1>
         <div className="carousel-container">
           <div className="carousel">
             {store.planet.map((planet) => (
               <div
                 className="card bg-dark"
-                style={{ width: "24rem", marginRight: "1rem" }}
+                style={{ width: "15rem", marginRight: "1rem" }}
                 key={planet.id}
               >
                 <img
@@ -94,7 +126,7 @@ export const Home = () => {
             {store.vehicle.map((vehicle) => (
               <div
                 className="card bg-dark"
-                style={{ width: "24rem", marginRight: "1rem" }}
+                style={{ width: "15rem", marginRight: "1rem" }}
                 key={vehicle.id}
               >
                 <img
@@ -114,27 +146,10 @@ export const Home = () => {
                   />
                   <Link to={`/vehicle/${vehicle.uid}`}>Detalle</Link>
                 </div>
-                
               </div>
             ))}
           </div>
-          <div>
-        <div class="dropdown">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Favoritos
-          </button>
-          <ul className="dropdown-menu">
-            {favorites.map((item, index) => (
-              <li key={index}>{item.properties.name}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
+          <div></div>
         </div>
       </div>
     </div>
