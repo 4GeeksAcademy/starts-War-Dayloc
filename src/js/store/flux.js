@@ -1,8 +1,15 @@
 import axios from "axios";
 const getState = ({ getStore, getActions, setStore }) => {
   return {
-    store: {},
+    store: {
+      people: [],
+      planet: [],
+      vehicle: [],
+      favorites: [],
+    },
+
     actions: {
+      fetchData: async () => {},
       getDetallePersonaje: async (id) => {
         await fetch(`https://www.swapi.tech/api/people/${id}`)
           .then((res) => res.json())
@@ -102,6 +109,26 @@ const getState = ({ getStore, getActions, setStore }) => {
             });
           })
           .catch((err) => console.error(err));
+      },
+      addFavorite: (item) => {
+        const store = getStore();
+        if (
+          !store.favorites.find(
+            (fav) => fav.uid === item.uid && fav.type === item.type
+          )
+        ) {
+          const updatedFavorites = [...store.favorites, item];
+          setStore({ favorites: updatedFavorites });
+          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+        }
+      },
+      removeFavorite: (item) => {
+        const store = getStore();
+        const updatedFavorites = store.favorites.filter(
+          (fav) => !(fav.uid === item.uid && fav.type === item.type)
+        );
+        setStore({ favorites: updatedFavorites });
+        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
       },
     },
   };

@@ -1,63 +1,22 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
+import Favoritos from "../component/Favoritos";
 
 export const Home = () => {
-  const { actions, store } = useContext(Context);
-  const [favorites, setFavorites] = useState([]);
+  const { store, actions } = useContext(Context);
 
-  if (!store.people) return null;
-  if (!store.vehicle) return null;
-  if (!store.planet) return null;
-  const addToFavorites = (item) => {
-    setFavorites((prevFavorites) => {
-      const isAlreadyFavorite = prevFavorites.some((fav) => fav.id === item.id);
-      if (isAlreadyFavorite) {
-        return prevFavorites;
-      }
-      return [...prevFavorites, item];
-    });
+  if (!store.people || !store.vehicle || !store.planet) return null;
 
-    const removeFromFavorites = (item) => {
-      setFavorites((prevFavorites) => {
-        return prevFavorites.filter((fav) => fav.id !== item.id);
-      });
-    };
+  const addToFavorites = (item, type) => {
+    actions.addFavorite({ ...item, type });
   };
 
   return (
     <div className="container text-center">
+      <Favoritos favorites={store.favorites} />
       <div className="container">
-        <div class="dropdown">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Favoritos
-          </button>
-          <ul className="dropdown-menu ">
-            {favorites.map((item, index) => (
-              <div className="row">
-                <div className="col-8">
-                  <li className="fav" key={index}>
-                    {item.properties.name}
-                  </li>
-                </div>
-                <div className="col-4">
-                  <span
-                    className="btn btn-danger"
-                    onClick={() => removeFromFavorites(item)}
-                  >
-                    X
-                  </span>
-                </div>
-              </div>
-            ))}
-          </ul>
-        </div>
         <h1 className="personajes mt-4">Personajes</h1>
         <div className="carousel-container">
           <div className="carousel">
@@ -76,13 +35,21 @@ export const Home = () => {
                   <h5 className="card-title text-truncate">
                     {people.properties.name}
                   </h5>
-                  <img
-                    onClick={() => addToFavorites(people)}
-                    src="https://i.pinimg.com/736x/f9/6a/17/f96a17cb970c98e22f4073f5c2e59f99.jpg"
-                    className="like img-fluid me-2"
-                    alt="like"
-                  />
-                  <Link to={`/people/${people.uid}`}>Detalle</Link>
+                  <svg
+                    onClick={() => addToFavorites(people, "people")}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-heart"
+                    viewBox="0 0 16 16"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                  </svg>
+                  <Link to={`/people/${people.uid}`}>
+                    <h4 className="ms-3">Detalle</h4>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -107,13 +74,21 @@ export const Home = () => {
                   <h5 className="card-title text-truncate">
                     {planet.properties.name}
                   </h5>
-                  <img
-                    onClick={() => addToFavorites(planet)}
-                    src="https://i.pinimg.com/736x/f9/6a/17/f96a17cb970c98e22f4073f5c2e59f99.jpg"
-                    className="like img-fluid"
-                    alt="like"
-                  />
-                  <Link to={`/planet/${planet.uid}`}>Detalle</Link>
+                  <svg
+                    onClick={() => addToFavorites(planet, "planet")}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-heart"
+                    viewBox="0 0 16 16"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                  </svg>
+                  <Link to={`/planet/${planet.uid}`}>
+                    <h4 className="ms-3">Detalle</h4>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -130,7 +105,6 @@ export const Home = () => {
                 key={vehicle.id}
               >
                 <img
-                  onClick={() => addToFavorites(vehicle)}
                   src="https://th.bing.com/th/id/R.8ce8007d8b3d09ea1a4194a1f1df00c4?rik=nzGApumRMoQU9Q&pid=ImgRaw&r=0"
                   className="card-img-top img-fluid"
                   alt="..."
@@ -139,17 +113,25 @@ export const Home = () => {
                   <h5 className="card-title text-truncate">
                     {vehicle.properties.name}
                   </h5>
-                  <img
-                    src="https://i.pinimg.com/736x/f9/6a/17/f96a17cb970c98e22f4073f5c2e59f99.jpg"
-                    className="like img-fluid"
-                    alt="like"
-                  />
-                  <Link to={`/vehicle/${vehicle.uid}`}>Detalle</Link>
+                  <svg
+                    onClick={() => addToFavorites(vehicle, "vehicle")}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-heart"
+                    viewBox="0 0 16 16"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                  </svg>
+                  <Link to={`/vehicle/${vehicle.uid}`}>
+                    <h4 className="ms-3">Detalle</h4>
+                  </Link>
                 </div>
               </div>
             ))}
           </div>
-          <div></div>
         </div>
       </div>
     </div>
